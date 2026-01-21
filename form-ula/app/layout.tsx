@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GreatFronEnd: Formula",
+  title: "GreatFrontEnd: Formula",
   description: "Take home assignment",
 };
 
