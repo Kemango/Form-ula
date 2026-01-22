@@ -77,16 +77,15 @@ export const RightSidebar = ({ formElements }: Props) => {
                       return <Text key={element.id} element={element} />;
                     case "paragraph":
                       return <Paragraph key={element.id} element={element} />;
-                  
                     case "checkbox":
                       return <CheckBoxInput key={element.id} element={element} />;
-                  
                     case "select":
                       return <Select key={element.id} element={element} />;
                     default:
                       return null;
                     }
-                  })}
+                }
+                )}                  
                 </div>
               )}
             </Card>

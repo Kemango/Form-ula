@@ -5,12 +5,24 @@ import { NavBar } from "@/components/navbar";
 import { LeftSidebar } from "@/components/leftSidebar";
 import { RightSidebar } from "@/components/input/rightSidebar";
 import { TextForm, ParagraphForm, CheckboxForm, SelectForm } from "@/types/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type FormElement = TextForm | ParagraphForm | CheckboxForm | SelectForm;
 
 const Home = () => {
   const [formElements, setFormElements] = useState<FormElement[]>([]);
+
+  useEffect(() => { 
+    const save = localStorage.getItem('formElements');
+    if (save) {
+      setFormElements(JSON.parse(save));
+    }
+  }
+, []);
+
+  useEffect(() => {
+    localStorage.setItem('formElements', JSON.stringify(formElements));
+  } , [formElements]);
 
   const addText = () => {
     const newText: TextForm = {
