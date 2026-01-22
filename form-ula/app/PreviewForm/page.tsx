@@ -1,4 +1,10 @@
+import { NavBar } from "@/components/navbar";
+
 const PreviewFormPage = () => { 
-    return <div>Preview Form Page</div>; 
-    }   
+    return (    
+      <main className="flex min-h-screen flex-col">
+        <NavBar />
+      </main>
+    )
+  }   
 export default PreviewFormPage;
