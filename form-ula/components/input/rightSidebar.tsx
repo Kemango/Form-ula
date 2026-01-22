@@ -3,9 +3,19 @@
 import Card from '@mui/material/Card';
 import { TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { CheckBox } from './CheckBox';
+import { TextForm, ParagraphForm, CheckboxForm, SelectForm } from "@/types/user";
+import { CheckBoxInput } from "./CheckBoxInput";
+import { Select } from "./Select";
+import { Text } from "./Text";
+import { Paragraph } from "./Paragraph";
 
-export const RightSidebar = () => {
+type FormElement = TextForm | ParagraphForm | CheckboxForm | SelectForm;
+
+type Props = {
+  formElements: FormElement[];
+};
+
+export const RightSidebar = ({ formElements }: Props) => {
   const [title, settitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -56,11 +66,31 @@ export const RightSidebar = () => {
               />      
           </div>
           {/* Body */}
-          <div className="flex items-center justify-center">
-            <p className="p-10">No form fields added yet. Use the panel on the left to add form elemets</p>
+          {formElements.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">
+              <p>No form elements added yet. Use the left sidebar to add elements.</p>
+            </div>) : (
+              <div className="p-8">
+                {formElements.map((element) => {
+                  switch (element.type) {
+                    case "text":
+                      return <Text key={element.id} element={element} />;
+                    case "paragraph":
+                      return <Paragraph key={element.id} element={element} />;
+                  
+                    case "checkbox":
+                      return <CheckBoxInput key={element.id} element={element} />;
+                  
+                    case "select":
+                      return <Select key={element.id} element={element} />;
+                    default:
+                      return null;
+                    }
+                  })}
+                </div>
+              )}
+            </Card>
           </div>
-          <CheckBox/>
-        </Card>
-      </div>
-  );
-}
+      );
+    };
+

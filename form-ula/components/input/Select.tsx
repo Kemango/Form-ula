@@ -5,8 +5,13 @@ import { FormControlLabel, FormGroup, TextField } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { SelectForm } from "@/types/user";
 
-export const Select = () => {
+type Props = {
+  element: SelectForm;
+};
+
+export const Select = ({ element }: Props) => {
   return (
     <div className="flex items-center justify-center">
     <Card className="p-10 w-full bg-gray-100">
@@ -32,7 +37,6 @@ export const Select = () => {
           fullWidth
           placeholder="Follow the word above"
           InputProps={{
-            disableUnderline: true,
             style: { fontWeight: 'bold'},
           }}
         />
