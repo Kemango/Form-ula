@@ -1,4 +1,5 @@
-export type Users = {
-    title: String;
-    description: String;
+export type RightPanelTS = {
+    title: string;
+    description: string;
   };
+

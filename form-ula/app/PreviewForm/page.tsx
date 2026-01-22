@@ -7,12 +7,9 @@ const PreviewFormPage = () => {
         {/* Header */}
         <NavBar />
         {/* Body */}
-
         <div className="flex-grow flex items-center justify-center">
           <RightSidebar />
         </div>
-        
-
       </main>
     )
   }   

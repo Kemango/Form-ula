@@ -1,4 +1,5 @@
 "use client";
+
 // Components
 import { NavBar } from "@/components/navbar";
 import { LeftSidebar } from "@/components/leftSidebar";
