@@ -24,7 +24,7 @@ export const NavBar = () => {
           {/* Save and Preview Button */}
           <div className="flex items-center gap-4">
             <Button variant="outlined" startIcon={<SendIcon/>} sx={{ color: 'black', borderColor: 'black'}}>
-              <h1>Save</h1>
+              <h1>Auto Save</h1>
             </Button>
             <Button variant="outlined" sx={{ color: 'black', borderColor: 'black'}} onClick={() => router.push(isPreview? '/' :'/PreviewForm')}>
               <h1>{isPreview ? 'Back to Edit' : 'Preview Form'}</h1>

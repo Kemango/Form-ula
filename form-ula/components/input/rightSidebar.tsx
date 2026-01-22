@@ -15,9 +15,11 @@ type Props = {
   formElements: FormElement[];
   removIt: (id: string) => void;
   isPreview: boolean;
+  header: (id: string, value: string) => void;
+  content: (id: string, value: string) => void;
 };
 
-export const RightSidebar = ({ formElements ,removIt }: Props) => {
+export const RightSidebar = ({ formElements ,removIt, isPreview, header, content}: Props) => {
   const [title, settitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -76,13 +78,13 @@ export const RightSidebar = ({ formElements ,removIt }: Props) => {
                 {formElements.map((element) => {
                   switch (element.type) {
                     case "text":
-                      return <Text key={element.id} element={element} removIt={removIt} />;
+                      return <Text key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview}/>;
                     case "paragraph":
-                      return <Paragraph key={element.id} element={element} removIt={removIt}/>;
+                      return <Paragraph key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview}/>;
                     case "checkbox":
-                      return <CheckBoxInput key={element.id} element={element} removIt={removIt}/>;
+                      return <CheckBoxInput key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview}/>;
                     case "select":
-                      return <Select key={element.id} element={element} removIt={removIt}/>;
+                      return <Select key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview}/>;
                     default:
                       return null;
                     }

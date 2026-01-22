@@ -15,6 +15,20 @@ const Home = () => {
   const deletion = (id: string) => {
     setFormElements(formElements.filter((element) => element.id !== id));
   };
+  const header = (id: string, value:string) => {
+    setFormElements(formElements.map((element) => {
+      if (element.id === id) {
+        return { ...element, header: value };
+      }
+      return element;
+    }))};
+  const content = (id: string, value:string) => {
+    setFormElements(formElements.map((element) => {
+      if (element.id === id) {
+        return { ...element, placeholder: value };
+      }
+      return element;
+    }))};
   useEffect(() => { 
     const save = localStorage.getItem('formElements');
     if (save) {
@@ -34,7 +48,8 @@ const Home = () => {
       id: Date.now().toString(),
       type: "text",
       required: false,
-      placeholder: "Enter text",
+      header: "",
+      placeholder: "",
     };
     setFormElements([...formElements, newText]);
   };
@@ -44,7 +59,8 @@ const Home = () => {
       id: Date.now().toString(),
       type: "paragraph",
       required: false,
-      placeholder: "Enter paragraph",
+      header: "",
+      placeholder: "",
     };
     setFormElements([...formElements, newParagraph]);
   };
@@ -54,7 +70,8 @@ const Home = () => {
       id: Date.now().toString(),
       type: "checkbox",
       required: false,
-      placeholder: "Enter checkbox",
+      header: "",
+      placeholder: "",
     };
     setFormElements([...formElements, newCheckbox]);
   };
@@ -64,7 +81,8 @@ const Home = () => {
       id: Date.now().toString(),
       type: "select",
       required: false,
-      placeholder: "Enter select",
+      header: "",
+      placeholder: "",
     };
     setFormElements([...formElements, newSelect]);
   };
@@ -79,10 +97,9 @@ const Home = () => {
         {/* Left Sidebar */}
         <LeftSidebar addText={addText} addParagraph={addParagraph} addCheckBox={addCheckBox} addSelect={addSelect}/>
         {/* Right Sidebar */}
-        <RightSidebar formElements={formElements} removIt={deletion} isPreview={false}/>
+        <RightSidebar formElements={formElements} removIt={deletion} isPreview={false} header={header} content={content}/>
       </div>
     </main>
   );
-}
-
+};    
 export default Home;

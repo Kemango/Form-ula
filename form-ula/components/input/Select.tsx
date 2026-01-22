@@ -10,9 +10,12 @@ import { SelectForm } from "@/types/user";
 type Props = {
   element: SelectForm;
   removIt: (id: string) => void;
+  header: (id: string, value: string) => void;
+  content: (id: string, value: string) => void;
+  isPreview: boolean;
 };
 
-export const Select = ({ element, removIt }: Props) => {
+export const Select = ({ element, removIt, header, content, isPreview }: Props) => {
   return (
     <div className="flex items-center justify-center">
     <Card className="p-10 w-full bg-gray-100">
@@ -20,7 +23,10 @@ export const Select = ({ element, removIt }: Props) => {
       <div className="mb-4 flex">
         <TextField
           fullWidth
-          placeholder="New Text Field"
+          placeholder="New Select Field"
+          value={element.header}
+          onChange={(e) => header(element.id, e.target.value)}
+          disabled={isPreview}
           variant="standard"
           InputProps={{
             disableUnderline: true,
@@ -36,7 +42,10 @@ export const Select = ({ element, removIt }: Props) => {
       </div>
       <TextField
           fullWidth
-          placeholder="Follow the word above"
+          placeholder={element.header}
+          value={element.placeholder}
+          onChange={(e) => content(element.id, e.target.value)}
+          disabled={false} 
           InputProps={{
             style: { fontWeight: 'bold'},
           }}
