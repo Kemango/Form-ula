@@ -18,25 +18,25 @@ export const LeftSidebar = ({addText, addParagraph, addCheckBox, addSelect}: Lef
           <h2 className="text-2xl font-bold mb-4">Add Form Elements</h2>
           {/* Card Buttons */}
           <Grid container rowSpacing={1} columnSpacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Button variant="outlined" className="p-4" startIcon={<TextIcon/>} onClick={addText} 
                 sx={{ color: 'black', borderColor: 'black', height: 60 ,width: 150 }}>
                 <h1>Text</h1>
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Button variant="outlined" className="p-4" startIcon={<ParagraphIcon/>} onClick={addParagraph} 
                 sx={{ color: 'black', borderColor: 'black', height: 60 ,width: 150 }}>
                 <h1>Paragraph</h1>
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Button variant="outlined"className="p-4" startIcon={<CheckBoxIcon/>} onClick={addCheckBox} 
                 sx={{ color: 'black', borderColor: 'black', height: 60 ,width: 150 }}>
                 <h1>Checkbox</h1>
               </Button>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Button variant="outlined" className="p-4" startIcon={<SelectIcon/>} onClick={addSelect} 
                 sx={{ color: 'black', borderColor: 'black', height: 60 ,width: 150 }}>
                 <h1>Select</h1>
