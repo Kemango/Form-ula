@@ -93,7 +93,7 @@ const Home = () => {
       <NavBar />
       {/* Body */}
       <div
-        className="grid md:grid-cols-[30%_70%]">
+        className="grid grid-cols-1 xl:grid-cols-[30%_70%]">
         {/* Left Sidebar */}
         <LeftSidebar addText={addText} addParagraph={addParagraph} addCheckBox={addCheckBox} addSelect={addSelect}/>
         {/* Right Sidebar */}

@@ -19,14 +19,14 @@ export const NavBar = () => {
                 width={35}
                 height={35}
             />
-            <h1 className="font-bold items-center text-3xl">Form Builder</h1>
+            <h1 className="font-bold items-center sm:text-3xl">Form Builder</h1>
           </div>
           {/* Save and Preview Button */}
-          <div className="flex items-center gap-4">
-            <Button variant="outlined" startIcon={<SendIcon/>} sx={{ color: 'black', borderColor: 'black'}}>
+          <div className="flex items-center gap-4 sm:w-auto sm:text-3xl">
+            <Button variant="outlined" startIcon={<SendIcon/>} sx={{ color: 'black', borderColor: 'black' , fontSize: { xs: 10, lg: 16  } }}>
               <h1>Auto Save</h1>
             </Button>
-            <Button variant="outlined" sx={{ color: 'black', borderColor: 'black'}} onClick={() => router.push(isPreview? '/' :'/PreviewForm')}>
+            <Button variant="outlined" sx={{ color: 'black', borderColor: 'black', fontSize: { xs: 10, lg: 16  }}} onClick={() => router.push(isPreview? '/' :'/PreviewForm')}>
               <h1>{isPreview ? 'Back to Edit' : 'Preview Form'}</h1>
             </Button>
           </div>
