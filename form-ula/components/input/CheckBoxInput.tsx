@@ -19,6 +19,8 @@ type Props = {
 
 export const CheckBoxInput = ({ element, removIt, header, content, isPreview, isRequired }: Props) => {
   const headerText = element.header + (element.required ? " *" : "");
+  const [tempOption1, setTempOption1] = useState(true);
+  const [tempOption2, setTempOption2] = useState(true);
   const [click , setClick] =  useState(false);
   const value = element.placeholder ?? "";
   const showError =
@@ -71,6 +73,48 @@ export const CheckBoxInput = ({ element, removIt, header, content, isPreview, is
             style: { fontWeight: 'bold'},
           }}
         />
+
+        <h2 className="mt-4 mb-2 font-semibold">Options:</h2>
+        <div className="flex items-center gap-2 mb-1">
+        {tempOption1&&( 
+          <TextField
+            fullWidth
+            placeholder="Option 1"
+            color="secondary"
+            error={showError}
+            helperText={showError ? "This field is required" : " "}
+            disabled={false} 
+            InputProps={{
+              style: { fontWeight: 'bold'},
+            }}
+          />
+        )}
+          {!isPreview && tempOption1&&( 
+            <IconButton aria-label="delete" onClick={() => setTempOption1(false)}>
+              <DeleteIcon />
+            </IconButton>          
+          )}
+        </div>  
+        <div className="flex items-center gap-2 mb-1">
+        {tempOption2&&( 
+          <TextField
+            fullWidth
+            placeholder="Option 2"
+            color="secondary"
+            error={showError}
+            helperText={showError ? "This field is required" : " "}
+            disabled={false} 
+            InputProps={{
+              style: { fontWeight: 'bold'},
+            }}
+            />
+          )}
+          {!isPreview&& tempOption2&&( 
+            <IconButton aria-label="delete" onClick={() => setTempOption2(false)}>
+              <DeleteIcon />
+            </IconButton>          
+          )}
+        </div>  
     </Card>
   </div>
   );
