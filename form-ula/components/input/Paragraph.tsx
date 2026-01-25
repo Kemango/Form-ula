@@ -18,6 +18,7 @@ type Props = {
 };
 
 export const Paragraph = ({ element, removIt, header, content, isPreview, isRequired }: Props) => {
+  const headerText = element.header + (element.required ? " *" : "");
   const [click , setClick] =  useState(false);
   const value = element.placeholder ?? "";
   const showError =
@@ -27,25 +28,33 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
     <Card className="p-10 w-full bg-gray-100">
       {/* Header */}
       <div className="mb-4 flex">
-        <TextField
-          fullWidth
-          placeholder="New Paragraph Text"
-          value={element.header}
-          onChange={(e) => header(element.id, e.target.value)}
-          disabled={isPreview}
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-            style: { fontWeight: 'bold'},
-          }}
-        />
-        <FormGroup>
-          <FormControlLabel control={<Checkbox disabled={isPreview} onChange={(e) => isRequired(element.id, e.target.checked)}
-          checked={element.required || false} />} label="required" />
-        </FormGroup>
-        <IconButton aria-label="delete" onClick={() => removIt(element.id)}>
-          <DeleteIcon />
-        </IconButton>
+      {isPreview ? (
+          <span style={{ fontWeight: 700, color: "black" }}>{headerText}</span>
+        ) : (
+          <TextField
+            fullWidth
+            placeholder="New Paragraph Text"
+            value={element.header} 
+            onChange={(e) => header(element.id, e.target.value)}
+            variant="standard"
+            InputProps={{
+              readOnly: isPreview,
+              disableUnderline: true,
+              style: { fontWeight: "bold", color: "black" },
+            }}
+          />
+        )}
+        {!isPreview &&( 
+          <FormGroup>
+            <FormControlLabel control={<Checkbox disabled={isPreview} onChange={(e) => isRequired(element.id, e.target.checked)} 
+            checked={element.required || false} />} label="required" />
+          </FormGroup>
+        )}
+        {!isPreview &&( 
+          <IconButton aria-label="delete" onClick={() => removIt(element.id)}>
+            <DeleteIcon />
+          </IconButton>          
+        )}
       </div>
       <TextField
           fullWidth
