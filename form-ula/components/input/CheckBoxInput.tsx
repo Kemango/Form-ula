@@ -60,6 +60,7 @@ export const CheckBoxInput = ({ element, removIt, header, content, isPreview, is
           fullWidth
           placeholder={element.header}
           value={element.placeholder}
+          color="secondary"
           error={showError}
           helperText={showError ? "This field is required" : " "}
           onChange={(e) => { if (isPreview) setClick(true);

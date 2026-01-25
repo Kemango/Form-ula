@@ -58,8 +58,11 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
       </div>
       <TextField
           fullWidth
+          multiline
+          minRows={4}
           placeholder={element.header}
           value={element.placeholder}
+          color="secondary"
           error={showError}
           helperText={showError ? "This field is required" : " "}
           onChange={(e) => { if (isPreview) setClick(true);

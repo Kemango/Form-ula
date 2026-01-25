@@ -4,10 +4,14 @@ import { NavBar } from "@/components/navbar";
 import { useEffect, useState } from "react";
 import { RightSidebar } from "@/components/input/rightSidebar";
 import {TextForm, ParagraphForm, CheckboxForm, SelectForm} from "@/types/user";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 type FormElement = TextForm | ParagraphForm | CheckboxForm | SelectForm;
 
 const PreviewFormPage = () => { 
+  const router = useRouter(); 
   const [formElements, setFormElements] = useState<FormElement[]>([]);
   const content = (id: string, value:string) => {
     setFormElements(formElements.map((element) => {
@@ -36,8 +40,14 @@ const PreviewFormPage = () => {
         {/* Header */}
         <NavBar />
         {/* Body */}
-        <div className="flex-grow flex items-center justify-center">
+        <div className="w-full flex flex-col items-center">
+          <div className="w-full max-w-5xl px-8 py-6">
+            <Button variant="outlined" className="p-4" startIcon={<ArrowBackIcon/>} onClick={() => router.push('/') }
+              sx={{ color: 'black', borderColor: 'black', height: 50}}>
+              <h1>Back to editor</h1>
+            </Button>
           <RightSidebar formElements={formElements} removIt={() => {}} isPreview={true} header ={() => {}} content={content} isRequired={isRequired} />
+          </div>
         </div>
       </main>
     )

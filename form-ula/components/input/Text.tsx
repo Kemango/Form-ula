@@ -61,6 +61,7 @@ export const Text = ({ element, removIt, header, content, isPreview, isRequired 
           fullWidth
           placeholder={element.header}
           value={element.placeholder}
+          color="secondary"
           error={showError}
           helperText={showError ? "This field is required" : " "}
           onChange={(e) => { if (isPreview) setClick(true);
