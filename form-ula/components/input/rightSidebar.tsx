@@ -9,7 +9,6 @@ import { Select } from "./Select";
 import { Text } from "./Text";
 import { Paragraph } from "./Paragraph";
 import SendIcon from '@mui/icons-material/Send';
-import { useRouter } from "next/navigation";
 
 type FormElement = TextForm | ParagraphForm | CheckboxForm | SelectForm;
 
@@ -20,21 +19,14 @@ type Props = {
   header: (id: string, value: string) => void;
   content: (id: string, value: string) => void;
   isRequired: (id: string, value: boolean) => void;
-  responses: Record<string, any>;
-  setResponse: (id: string, value: any) => void;
+  register: any;
+  errors: any;
 };
 
-export const RightSidebar = ({ formElements ,removIt, isPreview, header, content, isRequired, responses, setResponse}: Props) => {
-  const router = useRouter(); 
+export const RightSidebar = ({ formElements ,removIt, isPreview, header, content, isRequired, register, errors}: Props) => {
   const [title, settitle] = useState('');
   const [description, setDescription] = useState('');
-  const handleSubmit = () => {
-    localStorage.setItem(
-      "submittedData",
-      JSON.stringify({ formElements })
-    );
-    router.push("/Submission");
-  };
+  
   useEffect(() => {
     const savedTitle = localStorage.getItem('formTitle');
     const savedDescription = localStorage.getItem('formDescription');
@@ -90,10 +82,10 @@ export const RightSidebar = ({ formElements ,removIt, isPreview, header, content
                   switch (element.type) {
                     case "text":
                       return <Text key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired} 
-                      responses={responses} setResponse={setResponse}/>;
+                           register={register} errors={errors}/>;
                     case "paragraph":
                       return <Paragraph key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}
-                      responses={responses} setResponse={setResponse}/>;
+                           register={register} errors={errors}/>;
                     case "checkbox":
                       return <CheckBoxInput key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}/>;
                     case "select":
@@ -105,7 +97,7 @@ export const RightSidebar = ({ formElements ,removIt, isPreview, header, content
                 )}       
 
                 {isPreview &&( 
-                <Button variant="contained" className="mt-12" startIcon={<SendIcon/>}  color="secondary" fullWidth onClick={handleSubmit}
+                <Button variant="contained" className="mt-12" startIcon={<SendIcon/>}  color="secondary" fullWidth type="submit"
                   sx={{ color: 'white', height: 50}}>
                   <h1>Submit</h1>
                 </Button> 

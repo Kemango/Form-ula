@@ -6,7 +6,6 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { ParagraphForm } from "@/types/user";
-import { useState } from "react";
 
 type Props = {
   element: ParagraphForm;
@@ -15,17 +14,13 @@ type Props = {
   content: (id: string, value: string) => void;
   isRequired: (id: string, value: boolean) => void;
   isPreview: boolean;
-  responses: Record<string, string>;
-  setResponse: (id: string, value: string) => void;
+  register: any;
+  errors: any;
 };
 
-export const Paragraph = ({ element, removIt, header, content, isPreview, isRequired, responses, setResponse}: Props) => {
-  const headerText = element.header + (element.required ? " *" : "");
-  const [click , setClick] =  useState(false);
-  const value = element.placeholder ?? "";
-  const showError =
-    isPreview && element.required && click && value.trim() === "";
-
+export const Paragraph = ({ element, removIt, header, content, isPreview, isRequired, register, errors}: Props) => {
+  const fixHeader = element.header? element.header: "(Empty Header)";
+  const headerText = fixHeader + (element.required ? " *" : "");
   return (
     <div className="flex items-center justify-center">
     <Card className="p-10 w-full bg-gray-100">
@@ -36,7 +31,7 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
         ) : (
           <TextField
             fullWidth
-            placeholder="New Paragraph Text"
+            placeholder="New textarea field"
             value={element.header} 
             onChange={(e) => header(element.id, e.target.value)}
             variant="standard"
@@ -59,23 +54,29 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
           </IconButton>          
         )}
       </div>
-      <TextField
+      {isPreview ? (
+        <TextField
           fullWidth
-          multiline
-          minRows={4}
-          placeholder={element.header}
+          placeholder={`Enter ${fixHeader}`}
+          color="secondary"
+          error={!!errors?.[element.id]}
+          helperText={errors?.[element.id]?.message ?? " "}
+          InputProps={{ style: { fontWeight: "bold" } }}
+          {...register(element.id, {
+            required: element.required ? "This field is required" : false,
+          })}
+        />
+      ) : (
+        <TextField
+          fullWidth
+          placeholder={`Enter ${fixHeader}`}
           value={element.placeholder}
           color="secondary"
-          error={showError}
-          helperText={showError ? "This field is required" : " "}
-          onChange={(e) => { if  (isPreview) {setClick(true); setResponse(element.id, e.target.value);}
-            content(element.id, e.target.value);
-          }}
-          disabled={false} 
-          InputProps={{
-            style: { fontWeight: 'bold'},
-          }}
+          helperText=" "
+          onChange={(e) => content(element.id, e.target.value)}
+          InputProps={{ style: { fontWeight: "bold" } }}
         />
+      )}
     </Card>
   </div>
   );

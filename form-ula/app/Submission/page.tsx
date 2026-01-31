@@ -10,8 +10,14 @@ const Submission = () => {
   const router = useRouter(); 
   const [submittedData, setSubmittedData] = useState<any>(null);
   useEffect(() => {
-    const raw = localStorage.getItem("submittedData");
-    if (raw) setSubmittedData(JSON.parse(raw));
+    const header = sessionStorage.getItem("submittedData");
+    const body = sessionStorage.getItem("submittedFormElements");
+    if (header && body) {
+      setSubmittedData({
+        answers: JSON.parse(header),
+        formElements: JSON.parse(body),
+      });
+    }
   }, []);
     return (    
       <main className="flex min-h-screen flex-col">
@@ -28,8 +34,8 @@ const Submission = () => {
           <div className="bg-gray-100 rounded-lg p-4 mb-6 text-left">
           {submittedData?.formElements?.map((el: any) => (
             <div key={el.id} className="text-left mb-3">
-              <h1> {el.header}  </h1>
-              <h2> {el.placeholder} </h2>
+              <h1>{el.header}</h1>
+              <h2>{String(submittedData?.answers?.[el.id] ?? "")}</h2>
             </div>
           ))}
           </div>

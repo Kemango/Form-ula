@@ -7,13 +7,20 @@ import {TextForm, ParagraphForm, CheckboxForm, SelectForm} from "@/types/user";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 type FormElement = TextForm | ParagraphForm | CheckboxForm | SelectForm;
 
 const PreviewFormPage = () => { 
   const router = useRouter(); 
   const [formElements, setFormElements] = useState<FormElement[]>([]);
-  const [responses, setResponses] = useState<Record<string, any>>({});
+  const {register, handleSubmit, formState: { errors }} = useForm<Record<string, any>>();
+  const onSubmit = (data: Record<string, any>) => {
+    console.log("SUBMIT DATA:", data); 
+    sessionStorage.setItem("submittedData", JSON.stringify(data));
+    sessionStorage.setItem("submittedFormElements", JSON.stringify(formElements));
+    router.push("/Submission");
+  };
   const content = (id: string, value:string) => {
     setFormElements(formElements.map((element) => {
       if (element.id === id) {
@@ -25,13 +32,6 @@ const PreviewFormPage = () => {
     setFormElements(formElements.map((element) => {
       if (element.id === id) {
         return { ...element, required: value };
-      }
-      return element;
-    }))};
-  const response = (id: string, value:any) => {
-    setResponses(formElements.map((element) => {
-      if (element.id === id) {
-        return { ...element, placeholder: value };
       }
       return element;
     }))};
@@ -54,7 +54,10 @@ const PreviewFormPage = () => {
               sx={{ color: 'black', borderColor: 'black', height: 50}}>
               <h1>Back to editor</h1>
             </Button>
-          <RightSidebar formElements={formElements} removIt={() => {}} isPreview={true} header ={() => {}} content={content} isRequired={isRequired} responses={responses} setResponse={response}/>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <RightSidebar formElements={formElements} removIt={() => {}} isPreview={true} header ={() => {}} content={content} isRequired={isRequired} register={register}
+              errors={errors}/>
+            </form>
           </div>
         </div>
       </main>
