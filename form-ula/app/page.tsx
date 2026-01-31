@@ -38,6 +38,14 @@ const Home = () => {
       }
       return element;
     }))};
+  const updateOptions = (id: string, newOptions: string[]) => {
+    setFormElements(formElements.map((element) => {
+      if (element.id === id && element.type === "select") {
+        return { ...element, options: newOptions };
+      }
+      return element;
+    }));
+  };
   useEffect(() => { 
     const save = localStorage.getItem('formElements');
     if (save) {
@@ -92,6 +100,7 @@ const Home = () => {
       required: false,
       header: "",
       placeholder: "",
+      options: ["Option 1", "Option 2"],
     };
     setFormElements([...formElements, newSelect]);
   };
@@ -106,7 +115,8 @@ const Home = () => {
         {/* Left Sidebar */}
         <LeftSidebar addText={addText} addParagraph={addParagraph} addCheckBox={addCheckBox} addSelect={addSelect}/>
         {/* Right Sidebar */}
-        <RightSidebar formElements={formElements} removIt={deletion} isPreview={false} header={header} content={content} isRequired={isRequired} register={register}
+        <RightSidebar formElements={formElements} removIt={deletion} isPreview={false} header={header} content={content}
+                isRequired={isRequired} register={register} updateOptions={updateOptions}
               errors={errors}/>
       </div>
     </main>

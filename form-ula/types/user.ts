@@ -30,6 +30,7 @@ export type SelectForm = {
   required: boolean;
   header:string;
   placeholder: string;
+  options: string[];
 };
 
 export type LeftSidebarProps = {

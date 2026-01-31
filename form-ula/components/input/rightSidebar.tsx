@@ -21,9 +21,10 @@ type Props = {
   isRequired: (id: string, value: boolean) => void;
   register: any;
   errors: any;
+  updateOptions: (id: string, options: string[]) => void;
 };
 
-export const RightSidebar = ({ formElements ,removIt, isPreview, header, content, isRequired, register, errors}: Props) => {
+export const RightSidebar = ({ formElements ,removIt, isPreview, header, content, isRequired, register, errors, updateOptions}: Props) => {
   const [title, settitle] = useState('');
   const [description, setDescription] = useState('');
   
@@ -89,7 +90,7 @@ export const RightSidebar = ({ formElements ,removIt, isPreview, header, content
                     case "checkbox":
                       return <CheckBoxInput key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}/>;
                     case "select":
-                      return <Select key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}/>;
+                      return <Select key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired} updateOptions={updateOptions}/>;
                     default:
                       return null;
                     }
