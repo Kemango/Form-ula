@@ -57,6 +57,8 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
       {isPreview ? (
         <TextField
           fullWidth
+          multiline
+          minRows={4}
           placeholder={`Enter ${fixHeader}`}
           color="secondary"
           error={!!errors?.[element.id]}
@@ -69,6 +71,8 @@ export const Paragraph = ({ element, removIt, header, content, isPreview, isRequ
       ) : (
         <TextField
           fullWidth
+          multiline
+          minRows={4}
           placeholder={`Enter ${fixHeader}`}
           value={element.placeholder}
           color="secondary"

@@ -15,7 +15,6 @@ type Props = {
   element: SelectForm;
   removIt: (id: string) => void;
   header: (id: string, value: string) => void;
-  content: (id: string, value: string) => void;
   isRequired: (id: string, value: boolean) => void;
   isPreview: boolean;
   updateOptions: (id: string, options: string[]) => void;
@@ -23,10 +22,9 @@ type Props = {
   errors: any;
 };
 
-export const Select = ({ element, removIt, header, content, isPreview, isRequired, updateOptions, control, errors}: Props) => {
+export const Select = ({ element, removIt, header, isPreview, isRequired, updateOptions, control, errors}: Props) => {
   const fixHeader = element.header? element.header: "(Empty Header)";
   const headerText = fixHeader + (element.required ? " *" : "");
-  const [click , setClick] =  useState(false);
   const options = element.options ?? ["Option 1", "Option 2"];
   const updateOption = (index: number, value: string) => {
     const newOptions = [...options];

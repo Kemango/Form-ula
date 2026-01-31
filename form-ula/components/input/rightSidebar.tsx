@@ -90,9 +90,10 @@ export const RightSidebar = ({ formElements ,removIt, isPreview, header, content
                       return <Paragraph key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}
                            register={register} errors={errors}/>;
                     case "checkbox":
-                      return <CheckBoxInput key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired}/>;
+                      return <CheckBoxInput key={element.id} element={element} removIt={removIt} header={header} isPreview={isPreview} isRequired={isRequired}
+                          updateOptions={updateOptions} control={control} errors={errors}/>;
                     case "select":
-                      return <Select key={element.id} element={element} removIt={removIt} header={header} content={content} isPreview={isPreview} isRequired={isRequired} 
+                      return <Select key={element.id} element={element} removIt={removIt} header={header} isPreview={isPreview} isRequired={isRequired} 
                           updateOptions={updateOptions} control={control} errors={errors}/>;
                     default:
                       return null;

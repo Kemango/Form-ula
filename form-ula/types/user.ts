@@ -22,6 +22,7 @@ export type CheckboxForm = {
   required: boolean;
   header:string;
   placeholder: string;
+  options: string[];
 };
 
 export type SelectForm = {

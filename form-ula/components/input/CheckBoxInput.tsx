@@ -1,120 +1,139 @@
 "use client";
 
 import Card from "@mui/material/Card";
-import { FormControlLabel, FormGroup, TextField } from '@mui/material';
+import { Button, FormControl, FormControlLabel, FormGroup, FormHelperText, Input, InputLabel, TextField } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import { Select as SelectDrop } from '@mui/material';
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CheckboxForm } from "@/types/user";
 import { useState } from "react";
+import { Controller } from "react-hook-form";
 
 type Props = {
   element: CheckboxForm;
   removIt: (id: string) => void;
   header: (id: string, value: string) => void;
-  content: (id: string, value: string) => void;
   isRequired: (id: string, value: boolean) => void;
   isPreview: boolean;
+  updateOptions: (id: string, options: string[]) => void;
+  control: any;
+  errors: any;
 };
 
-export const CheckBoxInput = ({ element, removIt, header, content, isPreview, isRequired }: Props) => {
-  const headerText = element.header + (element.required ? " *" : "");
-  const [tempOption1, setTempOption1] = useState(true);
-  const [tempOption2, setTempOption2] = useState(true);
-  const [click , setClick] =  useState(false);
-  const value = element.placeholder ?? "";
-  const showError =
-    isPreview && element.required && click && value.trim() === "";
+export const CheckBoxInput = ({ element, removIt, header, isPreview, isRequired, updateOptions, control, errors}: Props) => {
+  const fixHeader = element.header? element.header: "(Empty Header)";
+  const headerText = fixHeader + (element.required ? " *" : "");
+  const options = element.options ?? ["Option 1", "Option 2"];
+  const updateOption = (index: number, value: string) => {
+    const newOptions = [...options];
+    newOptions[index] = value;
+    updateOptions(element.id, newOptions);
+  };
+  const deleteOption = (index: number) => {
+    const newOptions = options.filter((_, i) => i !== index);
+    updateOptions(element.id, newOptions);
+  }
   return (
-    <div className="flex items-center justify-center">
-    <Card className="p-10 w-full bg-gray-100">
+    <div className = "flex items-center justify-center">
+    <Card className = "p-10 w-full bg-gray-100">
       {/* Header */}
-      <div className="mb-4 flex">
-        {isPreview ? (
-          <span style={{ fontWeight: 700, color: "black" }}>{headerText}</span>
-        ) : (
-          <TextField
-            fullWidth
-            placeholder="CheckBox Field" 
-            value={element.header} 
-            onChange={(e) => header(element.id, e.target.value)}
-            variant="standard"
-            InputProps={{
-              readOnly: isPreview,
-              disableUnderline: true,
-              style: { fontWeight: "bold", color: "black" },
-            }}
-          />
-        )}
+      <div className = "mb-4 flex">
+          {isPreview ? (
+            <span style = {{ fontWeight: 700, color: "black" }}>{headerText}</span>
+          ) : (
+            <TextField
+              fullWidth
+              placeholder = "New Checkbox Field"
+              value = {element.header} 
+              onChange = {(e) => header(element.id, e.target.value)}
+              variant = "standard"
+              InputProps = {{
+                readOnly: isPreview,
+                disableUnderline: true,
+                style: { fontWeight: "bold", color: "black" },
+              }}
+            />
+          )}
         {!isPreview &&( 
           <FormGroup>
-            <FormControlLabel control={<Checkbox disabled={isPreview} onChange={(e) => isRequired(element.id, e.target.checked)} 
-            checked={element.required || false} />} label="required" />
+            <FormControlLabel control = {<Checkbox disabled = {isPreview} onChange = {(e) => isRequired(element.id, e.target.checked)} 
+            checked = {element.required || false} />} label = "required" />
           </FormGroup>
         )}
         {!isPreview &&( 
-          <IconButton aria-label="delete" onClick={() => removIt(element.id)}>
+          <IconButton aria-label = "delete" onClick={() => removIt(element.id)}>
             <DeleteIcon />
           </IconButton>          
         )}
       </div>
-      <TextField
-          fullWidth
-          placeholder={element.header}
-          value={element.placeholder}
-          color="secondary"
-          error={showError}
-          helperText={showError ? "This field is required" : " "}
-          onChange={(e) => { if (isPreview) setClick(true);
-            content(element.id, e.target.value);
-          }}
-          disabled={false} 
-          InputProps={{
-            style: { fontWeight: 'bold'},
-          }}
-        />
 
+      {!isPreview && (
+        <>
         <h2 className="mt-4 mb-2 font-semibold">Options:</h2>
-        <div className="flex items-center gap-2 mb-1">
-        {tempOption1&&( 
-          <TextField
-            fullWidth
-            placeholder="Option 1"
-            color="secondary"
-            error={showError}
-            helperText={showError ? "This field is required" : " "}
-            disabled={false} 
-            InputProps={{
-              style: { fontWeight: 'bold'},
-            }}
-          />
-        )}
-          {!isPreview && tempOption1&&( 
-            <IconButton aria-label="delete" onClick={() => setTempOption1(false)}>
-              <DeleteIcon />
-            </IconButton>          
-          )}
-        </div>  
-        <div className="flex items-center gap-2 mb-1">
-        {tempOption2&&( 
-          <TextField
-            fullWidth
-            placeholder="Option 2"
-            color="secondary"
-            error={showError}
-            helperText={showError ? "This field is required" : " "}
-            disabled={false} 
-            InputProps={{
-              style: { fontWeight: 'bold'},
-            }}
+        {options.map((option, index) => (
+          <div key={index} className="flex items-center gap-2 mb-1">
+            <TextField
+              fullWidth
+              placeholder= {`Option ${index + 1}`}
+              color= "secondary"
+              value= {option}
+              onChange= {(e) => updateOption(index, e.target.value)}
             />
-          )}
-          {!isPreview&& tempOption2&&( 
-            <IconButton aria-label="delete" onClick={() => setTempOption2(false)}>
-              <DeleteIcon />
-            </IconButton>          
-          )}
-        </div>  
+              <IconButton
+                aria-label= "delete"
+                onClick= {() => deleteOption(index)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </div>
+        ))}
+        </>
+      )}
+
+      {isPreview && (
+        <FormControl fullWidth error = {!!errors?.[element.id]}>
+          <Controller
+            name = {element.id}
+            control = {control}
+            rules = {{ required: element.required ? "This field is required" : false }}
+            defaultValue = {[]} 
+            render = {({ field }) => (
+              <>
+                {options.map((opt, index) => (
+                  <FormControlLabel
+                    key = {index}
+                    control = {
+                      <Checkbox
+                        checked = {field.value?.includes(opt) || false}
+                        onChange = {(e) => {
+                          const newValue = e.target.checked
+                            ? [...(field.value || []), opt]
+                            : (field.value || []).filter((v: string) => v !== opt);
+                          field.onChange(newValue);
+                        }}
+                      />
+                    }
+                    label = {opt || `Option ${index + 1}`}
+                  />
+                ))}
+              </>
+            )}
+          />
+
+          <FormHelperText>
+            {errors?.[element.id]?.message ?? " "}
+          </FormHelperText>
+        </FormControl>
+      )}
+
+      {!isPreview && (
+        <Button variant = "outlined" className="mt-2" onClick={() => updateOptions(element.id, [...options, `Option ${options.length + 1}`])}
+        sx={{ color: 'black', borderColor: 'black', height: 50, textTransform: "none"}}>
+        Add Option
+        </Button>
+      )}
     </Card>
   </div>
   );

@@ -40,7 +40,7 @@ const Home = () => {
     }))};
   const updateOptions = (id: string, newOptions: string[]) => {
     setFormElements(formElements.map((element) => {
-      if (element.id === id && element.type === "select") {
+      if (element.id === id && element.type === "select" || element.type === "checkbox") {
         return { ...element, options: newOptions };
       }
       return element;
@@ -66,7 +66,7 @@ const Home = () => {
       type: "text",
       required: false,
       header: "",
-      placeholder: "",
+      placeholder: ""
     };
     setFormElements([...formElements, newText]);
   };
@@ -77,7 +77,7 @@ const Home = () => {
       type: "paragraph",
       required: false,
       header: "",
-      placeholder: "",
+      placeholder: ""
     };
     setFormElements([...formElements, newParagraph]);
   };
@@ -89,6 +89,7 @@ const Home = () => {
       required: false,
       header: "",
       placeholder: "",
+      options: ["Option 1", "Option 2"]
     };
     setFormElements([...formElements, newCheckbox]);
   };
@@ -100,7 +101,7 @@ const Home = () => {
       required: false,
       header: "",
       placeholder: "",
-      options: ["Option 1", "Option 2"],
+      options: ["Option 1", "Option 2"]
     };
     setFormElements([...formElements, newSelect]);
   };
