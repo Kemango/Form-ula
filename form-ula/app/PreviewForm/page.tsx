@@ -56,7 +56,7 @@ const PreviewFormPage = () => {
             </Button>
             <form onSubmit={handleSubmit(onSubmit)}>
               <RightSidebar formElements={formElements} removIt={() => {}} isPreview={true} header ={() => {}} content={content} isRequired={isRequired} register={register}
-              errors={errors}/>
+              errors={errors} updateOptions={() => {}}/>
             </form>
           </div>
         </div>
