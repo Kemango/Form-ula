@@ -16,6 +16,13 @@ The UI is driven by a **form schema** (an array of element configs), and the ren
 ## Live Demo
 🔥 **View Live Demo:** https://form-ula.vercel.app/
 
+## Getting Started (Local)
+```bash
+npm install
+npm run dev
+```
+Open: http://localhost:3000
+
 ---
 
 ## Features
@@ -36,7 +43,9 @@ React `useState` is used to manage all application state:
 - UI state: `isPreviewMode`, `isSubmitted`
 - `submittedData`: captured form submission payload
 
-All key state is persisted to **localStorage** to support autosave and cross-page navigation without a backend.
+Persistence:
+- localStorage stores `formElements` (autosave) and also `formTitle` / `formDescription`
+- sessionStorage stores submitted answers + a snapshot of the submitted schema for `/Submission`
 
 ---
 
@@ -46,16 +55,19 @@ All key state is persisted to **localStorage** to support autosave and cross-pag
   - Form preview (runtime rendering & validation)
   - Shared UI (navigation, success page)
 - **Controlled components** in builder mode ensure real-time synchronization between editor and preview.
-- **react-hook-form** is used in preview mode for form validation and submission handling.
+- **react-hook-form** is used in preview mode for form validation and submission handling:
+  - `register` for basic inputs (Text / Paragraph)
+  - `Controller` for MUI controlled components (Select / Checkbox group)
+- **MUI FormControl + FormHelperText** are used to display validation errors cleanly for Select / Checkbox group.
 
 ---
 
 ### Dynamic Rendering
 Form preview dynamically renders fields by iterating through `formElements` and switching on `element.type`:
-- Text → `TextFieldPreview`
-- Paragraph → `ParagraphPreview`
-- Checkbox → `CheckboxGroupPreview`
-- Select → `SelectPreview`
+- Text → `Text`
+- Paragraph → `Paragraph`
+- Checkbox → `CheckBoxInput`
+- Select → `Select`
 
 This approach keeps rendering logic simple and scalable when adding new field types.
 
@@ -68,10 +80,13 @@ This approach keeps rendering logic simple and scalable when adding new field ty
   - Owns `formElements` schema
   - Handles add / update / delete logic
   - Persists schema to `localStorage`
+  - - Initializes `react-hook-form` to share `register`, `control`, and `errors` with reused field components
 
 - `app/PreviewForm/page.tsx` (**Preview**)
   - Loads schema from `localStorage`
-  - Renders form in fill mode using the same components
+  - Uses `react-hook-form` to validate and submit
+  - Saves submission payload to `sessionStorage`
+  - Routes to `/Submission`
 
 - `app/Submission/page.tsx` (**Submission**)
   - Reads submitted data from `localStorage`
@@ -95,6 +110,9 @@ Shared properties:
 - `required: boolean`
 - `placeholder: string`
 
+Type-specific properties:
+- `options: string[]` (only for `CheckboxForm` and `SelectForm`)
+
 This design enables type-safe rendering using `switch(element.type)`.
 
 ---
@@ -106,6 +124,7 @@ Each field component supports two modes via an `isPreview` flag:
 - Edit field labels
 - Toggle required state
 - Delete fields
+- Edit options (checkbox/select)
 
 **Preview Mode**
 - Render read-only labels
@@ -118,7 +137,11 @@ This allows reuse of the same components across pages while keeping logic centra
 ---
 
 ### Submission Handling & Tradeoff
-On submission, user input is saved to `localStorage` and the app navigates to `/Submission`.
+On submission, the form stores:
+- `submittedData` (answers) into `sessionStorage`
+- `submittedFormElements` (schema snapshot) into `sessionStorage`
+
+Then it navigates to `/Submission` to display a success screen and submitted summary.
 
 **Current simplification:**  
 To keep the implementation lightweight, user input is temporarily stored in `element.placeholder` during preview.
